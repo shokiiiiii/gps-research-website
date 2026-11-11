@@ -1,0 +1,41 @@
+
+site_name: GPS Co-location Research
+
+theme:
+  name: material
+  language: ja
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - content.code.copy
+
+plugins:
+  - search
+  - mkdocs-jupyter:
+      include:
+        - "*.ipynb"
+      execute: false
+
+markdown_extensions:
+  - pymdownx.highlight
+  - pymdownx.superfences
+
+nav:
+  - ホーム: index.md
+
+  - 分析フロー:
+      - 全体フロー: 01_workflow/index.md
+
+  - 処理の詳細:
+      - 滞在抽出: 02_methodology/stay.md
+      - 建物付与: 02_methodology/building.md
+      - 共滞在抽出: 02_methodology/costay.md
+
+  - 使用コード:
+      - コード一覧: 03_source_code/index.md
+      - Stay_region_building: 03_source_code/notebooks/Stay_region_building.ipynb
+
+  - 分析結果:
+      - 滞在分析: 04_results/stay.md
+      - 建物付与: 04_results/building.md
+      - 共滞在分析: 04_results/costay.md
