@@ -487,7 +487,7 @@
   <a href="#1-5km" class="md-nav__link">
     <span class="md-ellipsis">
       
-        ① 5kmバッファ
+        ① 5kmバッファ作成
       
     </span>
   </a>
@@ -498,7 +498,7 @@
   <a href="#2-zmap-town-ii" class="md-nav__link">
     <span class="md-ellipsis">
       
-        ② Zmap TOWN IIの前処理
+        ② Zmap TOWN II 建物データ整備
       
     </span>
   </a>
@@ -509,7 +509,7 @@
   <a href="#3" class="md-nav__link">
     <span class="md-ellipsis">
       
-        ③ 滞在抽出・建物付与
+        ③ 滞在抽出・建物情報付与
       
     </span>
   </a>
@@ -1013,7 +1013,7 @@
   <a href="#1-5km" class="md-nav__link">
     <span class="md-ellipsis">
       
-        ① 5kmバッファ
+        ① 5kmバッファ作成
       
     </span>
   </a>
@@ -1024,7 +1024,7 @@
   <a href="#2-zmap-town-ii" class="md-nav__link">
     <span class="md-ellipsis">
       
-        ② Zmap TOWN IIの前処理
+        ② Zmap TOWN II 建物データ整備
       
     </span>
   </a>
@@ -1035,7 +1035,7 @@
   <a href="#3" class="md-nav__link">
     <span class="md-ellipsis">
       
-        ③ 滞在抽出・建物付与
+        ③ 滞在抽出・建物情報付与
       
     </span>
   </a>
@@ -1078,28 +1078,28 @@
 <h1 id="_1">全体フロー</h1>
 <h2 id="gps">GPSデータの処理手順</h2>
 <pre class="mermaid"><code>flowchart TD
-    subgraph S1["① 5kmバッファの準備"]
-        A["Extract_Zmaptown_buildings_5km.py"]
+    subgraph S1["① 5kmバッファ作成"]
+        A["Processed_buffer_5km_Saijo_and_Hiroshima.py"]
         B[("広島駅・西条駅 5km Buffer")]
         A --&gt; B
     end
 
-    subgraph S2["② Zmap TOWN IIの前処理"]
-        C[("Zmap TOWN II 元データ")]
-        D["Zmap_TOWN_II_pipeline.py&lt;br/&gt;CRS補正・5km圏切り出し"]
-        E[("広島・西条 建物GPKG")]
+    subgraph S2["② Zmap TOWN II 建物データ整備"]
+        C[("Zmap TOWN II 原データ")]
+        D["Zmap_TOWN_II_pipeline.py&lt;br/&gt;CRS補正・5km圏内抽出"]
+        E[("広島駅・西条駅 5km 建物GPKG")]
         B --&gt; D
         C --&gt; D
         D --&gt; E
     end
 
-    subgraph S3["③ 滞在抽出・建物付与"]
-        F[("GPS_data_with_socio")]
+    subgraph S3["③ 滞在抽出・建物情報付与"]
+        F[("GPS Data with Socio")]
         G["Processed_Stay_Zmap_TOWN_II.py"]
-        H[("Stay_Hiroshima_5km_building_Z.parquet&lt;br/&gt;Stay_Saijo_5km_building_Z.parquet")]
+        H[("Stay + 建物情報&lt;br/&gt;広島駅・西条駅")]
         E --&gt; G
-        F --&gt; G
         B --&gt; G
+        F --&gt; G
         G --&gt; H
     end
 
@@ -1132,93 +1132,73 @@
 </thead>
 <tbody>
 <tr>
-<td>① 5kmバッファ準備</td>
+<td>① 5kmバッファ作成</td>
 <td>広島駅・西条駅の位置情報</td>
-<td><code>Extract_Zmaptown_buildings_5km.py</code></td>
-<td>5kmバッファ</td>
+<td><code>Processed_buffer_5km_Saijo_and_Hiroshima.py</code></td>
+<td>広島駅・西条駅の5kmバッファ</td>
 <td>—</td>
 </tr>
 <tr>
-<td>② 建物ポリゴン前処理</td>
-<td>Zmap TOWN II + 5kmバッファ</td>
+<td>② 建物データ整備</td>
+<td>Zmap TOWN II原データ + 5kmバッファ</td>
 <td><code>Zmap_TOWN_II_pipeline.py</code></td>
-<td>地域別建物GPKG</td>
+<td>広島駅・西条駅の建物GPKG</td>
 <td>—</td>
 </tr>
 <tr>
 <td>③ 滞在抽出・建物付与</td>
-<td>GPS_data_with_socio + 建物GPKG + 5kmバッファ</td>
+<td>GPS Data with Socio + 建物GPKG + 5kmバッファ</td>
 <td><code>Processed_Stay_Zmap_TOWN_II.py</code></td>
-<td>地域別Stay Parquet</td>
+<td>Stay + 建物情報（Parquet）</td>
 <td><code>Stay_region_building.ipynb</code></td>
 </tr>
 <tr>
 <td>④ 共滞在分析</td>
 <td>Stay + 建物情報</td>
 <td>確認中</td>
-<td>Co-stay</td>
+<td>Co-stay Data</td>
 <td>確認中</td>
 </tr>
 </tbody>
 </table>
 <h2 id="_3">入出力ファイル</h2>
-<h3 id="1-5km">① 5kmバッファ</h3>
-<p>実行コード：</p>
-<p><code>02_Scripts/Processed/Extract_Zmaptown_buildings_5km.py</code></p>
-<p>使用するバッファ：</p>
-<ul>
-<li><code>01_Data/Building/Buffer_5km/buffer_5km_HiroshimaStation.gpkg</code></li>
-<li><code>01_Data/Building/Buffer_5km/buffer_5km_SaijoStation.gpkg</code></li>
-</ul>
-<h3 id="2-zmap-town-ii">② Zmap TOWN IIの前処理</h3>
-<p>実行コード：</p>
-<p><code>02_Scripts/Processed/Zmap_TOWN_II_pipeline.py</code></p>
-<p>入力：</p>
-<ul>
-<li><code>01_Data/external/Zmap TOWN II (2020年度 Shape版) 広島県 データセット</code></li>
-<li>①の5kmバッファ</li>
-</ul>
-<p>処理：</p>
-<ol>
-<li>Zmap TOWN IIの座標参照系（CRS）を補正する。</li>
-<li>広島駅・西条駅の5kmバッファに合わせて建物ポリゴンを抽出する。</li>
-<li>地域別のGeoPackageファイルを作成する。</li>
-</ol>
-<p>出力：</p>
-<ul>
-<li><code>01_Data/Building/GPKG_Zmap_Town_II/Hiroshima_5km_buildings.gpkg</code></li>
-<li><code>01_Data/Building/GPKG_Zmap_Town_II/Saijo_5km_buildings.gpkg</code></li>
-</ul>
-<h3 id="3">③ 滞在抽出・建物付与</h3>
-<p>実行コード：</p>
-<p><code>02_Scripts/Processed/Processed_Stay_Zmap_TOWN_II.py</code></p>
-<p>入力：</p>
-<ul>
-<li><code>01_Data/raw/GPS_data_with_socio/</code></li>
-<li>②で作成した地域別建物GPKG</li>
-<li>①の5kmバッファ</li>
-</ul>
-<p>処理：</p>
-<ol>
-<li>GPSデータから対象地域内の滞在を抽出する。</li>
-<li>滞在位置と建物ポリゴンを空間的に対応付ける。</li>
-<li>建物情報を付与した滞在データを保存する。</li>
-</ol>
-<p>出力：</p>
-<ul>
-<li><code>01_Data/processed/Stay_region_building/Stay_Hiroshima_5km_building_Z.parquet</code></li>
-<li><code>01_Data/processed/Stay_region_building/Stay_Saijo_5km_building_Z.parquet</code></li>
-</ul>
-<p>検証Notebook：</p>
-<p><code>02_Scripts/Check/Stay_region_building.ipynb</code></p>
+<h3 id="1-5km">① 5kmバッファ作成</h3>
+<p><strong>Python</strong>
+<code>02_Scripts/Processed/Processed_buffer_5km_Saijo_and_Hiroshima.py</code></p>
+<p><strong>出力</strong>
+- <code>01_Data/Building/Buffer_5km/buffer_5km_HiroshimaStation.gpkg</code>
+- <code>01_Data/Building/Buffer_5km/buffer_5km_SaijoStation.gpkg</code></p>
+<h3 id="2-zmap-town-ii">② Zmap TOWN II 建物データ整備</h3>
+<p>Zmap TOWN II原データのCRSを補正し、各駅の5kmバッファに対応する建物データを作成する。</p>
+<p><strong>Python</strong>
+<code>02_Scripts/Processed/Zmap_TOWN_II_pipeline.py</code></p>
+<p><strong>入力</strong>
+- <code>01_Data/external/Zmap TOWN II (2020年度 Shape版) 広島県 データセット/</code>
+- <code>01_Data/Building/Buffer_5km/buffer_5km_HiroshimaStation.gpkg</code>
+- <code>01_Data/Building/Buffer_5km/buffer_5km_SaijoStation.gpkg</code></p>
+<p><strong>出力</strong>
+- <code>01_Data/Building/GPKG_Zmap_Town_II/Hiroshima_5km_buildings.gpkg</code>
+- <code>01_Data/Building/GPKG_Zmap_Town_II/Saijo_5km_buildings.gpkg</code></p>
+<h3 id="3">③ 滞在抽出・建物情報付与</h3>
+<p>GPSデータから各駅5km圏内の滞在を抽出し、建物ポリゴンと対応付ける。</p>
+<p><strong>Python</strong>
+<code>02_Scripts/Processed/Processed_Stay_Zmap_TOWN_II.py</code></p>
+<p><strong>入力</strong>
+- <code>01_Data/raw/GPS_data_with_socio/</code>
+- <code>01_Data/Building/GPKG_Zmap_Town_II/Hiroshima_5km_buildings.gpkg</code>
+- <code>01_Data/Building/GPKG_Zmap_Town_II/Saijo_5km_buildings.gpkg</code>
+- 広島駅・西条駅の5kmバッファ</p>
+<p><strong>出力</strong>
+- <code>01_Data/processed/Stay_region_building/Stay_Hiroshima_5km_building_Z.parquet</code>
+- <code>01_Data/processed/Stay_region_building/Stay_Saijo_5km_building_Z.parquet</code></p>
+<p><strong>検証Notebook</strong>
+<code>02_Scripts/Check/Stay_region_building.ipynb</code></p>
 <h3 id="4">④ 共滞在分析</h3>
-<p>入力：</p>
-<ul>
-<li>③で作成した建物情報付きStayデータ</li>
-</ul>
-<p>実行コード：確認中</p>
-<p>出力：Co-stay Data</p>
-<p>検証Notebook：確認中</p>
+<p>建物情報が付与されたStayデータから、同一建物内における異なるユーザー間の共滞在を抽出する。</p>
+<p><strong>Python：</strong> 確認中</p>
+<p><strong>入力：</strong> ③で作成したStayデータ</p>
+<p><strong>出力：</strong> Co-stay Data</p>
+<p><strong>検証Notebook：</strong> 確認中</p>
 
 
 
