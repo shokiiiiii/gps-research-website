@@ -21,11 +21,10 @@ flowchart TD
     end
 
     subgraph S3["③ 滞在抽出・建物情報付与"]
-        F[("GPS Data with Socio")]
+        F[("クリーン済みGPSデータ(trip)")]
         G["Processed_Stay_Zmap_TOWN_II.py"]
-        H[("Stay + 建物情報<br/>広島駅・西条駅")]
+        H[("滞在 + 建物情報<br/>広島駅・西条駅")]
         E --> G
-        B --> G
         F --> G
         G --> H
     end
@@ -54,7 +53,7 @@ flowchart TD
 |---|---|---|---|---|
 | ① 5kmバッファ作成 | 広島駅・西条駅の位置情報 | `Processed_buffer_5km_Saijo_and_Hiroshima.py` | 広島駅・西条駅の5kmバッファ | — |
 | ② 建物データ整備 | Zmap TOWN II原データ + 5kmバッファ | `Zmap_TOWN_II_pipeline.py` | 広島駅・西条駅の建物GPKG | — |
-| ③ 滞在抽出・建物付与 | GPS Data with Socio + 建物GPKG + 5kmバッファ | `Processed_Stay_Zmap_TOWN_II.py` | Stay + 建物情報（Parquet） | `Stay_region_building.ipynb` |
+| ③ 滞在抽出・建物付与 | GPS Data with Socio + 建物GPKG + 5kmバッファ | `Processed_Stay_Zmap_TOWN_II.py` | 滞在 + 建物情報（Parquet） | `Stay_region_building.ipynb` |
 | ④ 共滞在分析 | Stay + 建物情報 | 確認中 | Co-stay Data | 確認中 |
 
 ## 入出力ファイル
