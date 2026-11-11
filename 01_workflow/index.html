@@ -1094,11 +1094,10 @@
     end
 
     subgraph S3["③ 滞在抽出・建物情報付与"]
-        F[("GPS Data with Socio")]
+        F[("クリーン済みGPSデータ(trip)")]
         G["Processed_Stay_Zmap_TOWN_II.py"]
-        H[("Stay + 建物情報&lt;br/&gt;広島駅・西条駅")]
+        H[("滞在 + 建物情報&lt;br/&gt;広島駅・西条駅")]
         E --&gt; G
-        B --&gt; G
         F --&gt; G
         G --&gt; H
     end
@@ -1149,7 +1148,7 @@
 <td>③ 滞在抽出・建物付与</td>
 <td>GPS Data with Socio + 建物GPKG + 5kmバッファ</td>
 <td><code>Processed_Stay_Zmap_TOWN_II.py</code></td>
-<td>Stay + 建物情報（Parquet）</td>
+<td>滞在 + 建物情報（Parquet）</td>
 <td><code>Stay_region_building.ipynb</code></td>
 </tr>
 <tr>
