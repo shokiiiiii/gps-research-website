@@ -5,28 +5,28 @@
 
 ```mermaid
 flowchart TD
-    subgraph S1["① 5kmバッファの準備"]
-        A["Extract_Zmaptown_buildings_5km.py"]
+    subgraph S1["① 5kmバッファ作成"]
+        A["Processed_buffer_5km_Saijo_and_Hiroshima.py"]
         B[("広島駅・西条駅 5km Buffer")]
         A --> B
     end
 
-    subgraph S2["② Zmap TOWN IIの前処理"]
-        C[("Zmap TOWN II 元データ")]
-        D["Zmap_TOWN_II_pipeline.py<br/>CRS補正・5km圏切り出し"]
-        E[("広島・西条 建物GPKG")]
+    subgraph S2["② Zmap TOWN II 建物データ整備"]
+        C[("Zmap TOWN II 原データ")]
+        D["Zmap_TOWN_II_pipeline.py<br/>CRS補正・5km圏内抽出"]
+        E[("広島駅・西条駅 5km 建物GPKG")]
         B --> D
         C --> D
         D --> E
     end
 
-    subgraph S3["③ 滞在抽出・建物付与"]
-        F[("GPS_data_with_socio")]
+    subgraph S3["③ 滞在抽出・建物情報付与"]
+        F[("GPS Data with Socio")]
         G["Processed_Stay_Zmap_TOWN_II.py"]
-        H[("Stay_Hiroshima_5km_building_Z.parquet<br/>Stay_Saijo_5km_building_Z.parquet")]
+        H[("Stay + 建物情報<br/>広島駅・西条駅")]
         E --> G
-        F --> G
         B --> G
+        F --> G
         G --> H
     end
 
@@ -52,81 +52,66 @@ flowchart TD
 
 | 工程 | 入力 | Python | 出力 | 検証Notebook |
 |---|---|---|---|---|
-| ① 5kmバッファ準備 | 広島駅・西条駅の位置情報 | `Extract_Zmaptown_buildings_5km.py` | 5kmバッファ | — |
-| ② 建物ポリゴン前処理 | Zmap TOWN II + 5kmバッファ | `Zmap_TOWN_II_pipeline.py` | 地域別建物GPKG | — |
-| ③ 滞在抽出・建物付与 | GPS_data_with_socio + 建物GPKG + 5kmバッファ | `Processed_Stay_Zmap_TOWN_II.py` | 地域別Stay Parquet | `Stay_region_building.ipynb` |
-| ④ 共滞在分析 | Stay + 建物情報 | 確認中 | Co-stay | 確認中 |
+| ① 5kmバッファ作成 | 広島駅・西条駅の位置情報 | `Processed_buffer_5km_Saijo_and_Hiroshima.py` | 広島駅・西条駅の5kmバッファ | — |
+| ② 建物データ整備 | Zmap TOWN II原データ + 5kmバッファ | `Zmap_TOWN_II_pipeline.py` | 広島駅・西条駅の建物GPKG | — |
+| ③ 滞在抽出・建物付与 | GPS Data with Socio + 建物GPKG + 5kmバッファ | `Processed_Stay_Zmap_TOWN_II.py` | Stay + 建物情報（Parquet） | `Stay_region_building.ipynb` |
+| ④ 共滞在分析 | Stay + 建物情報 | 確認中 | Co-stay Data | 確認中 |
 
 ## 入出力ファイル
 
-### ① 5kmバッファ
+### ① 5kmバッファ作成
 
-実行コード：
+**Python**
+`02_Scripts/Processed/Processed_buffer_5km_Saijo_and_Hiroshima.py`
 
-`02_Scripts/Processed/Extract_Zmaptown_buildings_5km.py`
-
-使用するバッファ：
-
+**出力**
 - `01_Data/Building/Buffer_5km/buffer_5km_HiroshimaStation.gpkg`
 - `01_Data/Building/Buffer_5km/buffer_5km_SaijoStation.gpkg`
 
-### ② Zmap TOWN IIの前処理
+### ② Zmap TOWN II 建物データ整備
 
-実行コード：
+Zmap TOWN II原データのCRSを補正し、各駅の5kmバッファに対応する建物データを作成する。
 
+**Python**
 `02_Scripts/Processed/Zmap_TOWN_II_pipeline.py`
 
-入力：
+**入力**
+- `01_Data/external/Zmap TOWN II (2020年度 Shape版) 広島県 データセット/`
+- `01_Data/Building/Buffer_5km/buffer_5km_HiroshimaStation.gpkg`
+- `01_Data/Building/Buffer_5km/buffer_5km_SaijoStation.gpkg`
 
-- `01_Data/external/Zmap TOWN II (2020年度 Shape版) 広島県 データセット`
-- ①の5kmバッファ
-
-処理：
-
-1. Zmap TOWN IIの座標参照系（CRS）を補正する。
-2. 広島駅・西条駅の5kmバッファに合わせて建物ポリゴンを抽出する。
-3. 地域別のGeoPackageファイルを作成する。
-
-出力：
-
+**出力**
 - `01_Data/Building/GPKG_Zmap_Town_II/Hiroshima_5km_buildings.gpkg`
 - `01_Data/Building/GPKG_Zmap_Town_II/Saijo_5km_buildings.gpkg`
 
-### ③ 滞在抽出・建物付与
+### ③ 滞在抽出・建物情報付与
 
-実行コード：
+GPSデータから各駅5km圏内の滞在を抽出し、建物ポリゴンと対応付ける。
 
+**Python**
 `02_Scripts/Processed/Processed_Stay_Zmap_TOWN_II.py`
 
-入力：
-
+**入力**
 - `01_Data/raw/GPS_data_with_socio/`
-- ②で作成した地域別建物GPKG
-- ①の5kmバッファ
+- `01_Data/Building/GPKG_Zmap_Town_II/Hiroshima_5km_buildings.gpkg`
+- `01_Data/Building/GPKG_Zmap_Town_II/Saijo_5km_buildings.gpkg`
+- 広島駅・西条駅の5kmバッファ
 
-処理：
-
-1. GPSデータから対象地域内の滞在を抽出する。
-2. 滞在位置と建物ポリゴンを空間的に対応付ける。
-3. 建物情報を付与した滞在データを保存する。
-
-出力：
-
+**出力**
 - `01_Data/processed/Stay_region_building/Stay_Hiroshima_5km_building_Z.parquet`
 - `01_Data/processed/Stay_region_building/Stay_Saijo_5km_building_Z.parquet`
 
-検証Notebook：
-
+**検証Notebook**
 `02_Scripts/Check/Stay_region_building.ipynb`
 
 ### ④ 共滞在分析
 
-入力：
+建物情報が付与されたStayデータから、同一建物内における異なるユーザー間の共滞在を抽出する。
 
-- ③で作成した建物情報付きStayデータ
+**Python：** 確認中
 
-実行コード：確認中
+**入力：** ③で作成したStayデータ
 
-出力：Co-stay Data
+**出力：** Co-stay Data
 
-検証Notebook：確認中
+**検証Notebook：** 確認中
