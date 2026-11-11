@@ -1,6 +1,4 @@
-## GPSデータの分析フロー
 
-```mermaid
 flowchart TD
     subgraph S1["① 滞在抽出"]
         A["GPS Trip Data"] --> B["Python：確認中"]
@@ -32,12 +30,3 @@ flowchart TD
     class A,C,D,F,H data
     class B,E,G script
     class I,J check
-```
-
-### 図の見方
-
-- **青色**：入力・出力データ
-- **灰色**：Pythonによるデータ処理
-- **緑色**：検証用Notebook
-- **実線矢印**：データの処理・受け渡し
-- **破線矢印**：分析結果の検証
