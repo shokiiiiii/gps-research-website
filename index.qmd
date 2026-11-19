@@ -1,0 +1,39 @@
+---
+title: "GPS Co-location Research"
+toc: false
+listing:
+  id: latest-weekly
+  contents: 05_weekly/posts
+  sort: "date desc"
+  type: table
+  max-items: 3
+  fields: [date, title, description]
+  field-display-names:
+    date: 週
+    title: タイトル
+    description: まとめ
+  date-format: "YYYY/MM/DD"
+  sort-ui: false
+  filter-ui: false
+---
+
+## 研究概要
+
+GPS軌跡データで表現される共滞在と都市構造の関係を明らかにする。
+
+## サイトの構成
+
+::: {.nav-cards}
+[**分析フロー**<span>データ処理の全体像と各工程の入出力</span>](01_workflow/index.qmd)
+[**処理の詳細**<span>滞在抽出・建物付与・共滞在抽出の手法</span>](02_methodology/stay.qmd)
+[**使用コード**<span>分析に使用した Python / Notebook</span>](03_source_code/index.qmd)
+[**分析結果**<span>滞在・建物付与・共滞在の分析結果</span>](04_results/stay.qmd)
+[**週報**<span>毎週の進捗・課題・次の予定</span>](05_weekly/index.qmd)
+:::
+
+## 最新の週報
+
+::: {#latest-weekly}
+:::
+
+[すべての週報を見る →](05_weekly/index.qmd)

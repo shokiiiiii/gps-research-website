@@ -1,0 +1,88 @@
+project:
+  type: website
+  output-dir: _site
+  render:
+    - "*.qmd"
+    - "*.ipynb"
+    - "!_templates/"
+    - "!README.md"
+  resources:
+    - 03_source_code/python/
+
+lang: ja
+
+website:
+  title: "GPS Co-location Research"
+  description: "GPS軌跡データで表現される共滞在と都市構造の関係"
+  repo-url: https://github.com/shokiiiiii/gps-research-website
+  repo-branch: main
+  repo-actions: [edit, source]
+  page-navigation: true
+  back-to-top-navigation: true
+  reader-mode: true
+  search:
+    location: navbar
+    type: overlay
+  navbar:
+    left:
+      - text: ホーム
+        href: index.qmd
+      - text: 分析フロー
+        href: 01_workflow/index.qmd
+      - text: 処理の詳細
+        href: 02_methodology/stay.qmd
+      - text: 使用コード
+        href: 03_source_code/index.qmd
+      - text: 分析結果
+        href: 04_results/stay.qmd
+      - text: 週報
+        href: 05_weekly/index.qmd
+    right:
+      - icon: github
+        href: https://github.com/shokiiiiii/gps-research-website
+        aria-label: GitHub
+  sidebar:
+    - id: methodology
+      title: 処理の詳細
+      contents:
+        - 02_methodology/stay.qmd
+        - 02_methodology/building.qmd
+        - 02_methodology/costay.qmd
+    - id: code
+      title: 使用コード
+      contents:
+        - 03_source_code/index.qmd
+        - text: "③ 滞在抽出・建物付与 (.py)"
+          href: 03_source_code/processed_stay.qmd
+        - text: "③ 検証 Notebook"
+          href: 03_source_code/notebooks/Stay_region_building.ipynb
+    - id: results
+      title: 分析結果
+      contents:
+        - 04_results/stay.qmd
+        - 04_results/building.qmd
+        - 04_results/costay.qmd
+  page-footer:
+    center: "GPS Co-location Research"
+
+format:
+  html:
+    theme:
+      light: cosmo
+      dark: darkly
+    respect-user-color-scheme: true
+    toc: true
+    toc-title: 目次
+    number-sections: false
+    code-copy: true
+    code-overflow: scroll
+    css: styles.css
+    highlight-style: github
+    fig-cap-location: bottom
+    tbl-cap-location: top
+    mermaid:
+      theme: neutral
+
+execute:
+  enabled: false
+  freeze: auto

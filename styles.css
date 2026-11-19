@@ -1,0 +1,9 @@
+/* トップページのカード */
+.nav-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; margin: 1rem 0 2rem; }
+.nav-cards a { display: block; padding: 1rem 1.25rem; border: 1px solid var(--bs-border-color-translucent, rgba(128,128,128,.3)); border-left: 4px solid var(--bs-link-color); border-radius: .5rem; text-decoration: none; color: inherit; transition: box-shadow .15s, transform .15s; }
+.nav-cards a:hover { box-shadow: 0 4px 14px rgba(0,0,0,.08); transform: translateY(-2px); }
+.nav-cards strong { display: block; color: var(--bs-link-color); font-size: 1.1rem; margin-bottom: .25rem; }
+.nav-cards span { font-size: .9rem; opacity: .8; }
+/* Mermaid の図は横幅いっぱいに */
+.cell-output-display svg, div.mermaid svg { max-width: 100% !important; height: auto; }
+.nav-cards > p { display: contents; }

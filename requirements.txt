@@ -1,3 +1,1 @@
-mkdocs==1.6.1
-mkdocs-material==9.8.1
-mkdocs-jupyter==0.27.0
+quarto-cli==1.11.9

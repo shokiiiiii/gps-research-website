@@ -1,6 +1,9 @@
+/.quarto/
+_site/
+_freeze/
 .venv/
-site/
-.cache/
 __pycache__/
 .env*
 .dev.vars*
+
+**/*.quarto_ipynb

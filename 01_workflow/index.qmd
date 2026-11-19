@@ -1,9 +1,12 @@
-
-# 全体フロー
+---
+title: "全体フロー"
+---
 
 ## GPSデータの処理手順
 
-```mermaid
+```{mermaid}
+%%| fig-cap: GPSデータの処理手順
+%%{init: {"flowchart": {"htmlLabels": true, "padding": 16}, "themeVariables": {"fontSize": "15px"}}}%%
 flowchart TD
     subgraph S1["① 5kmバッファ作成"]
         A["Processed_buffer_5km_Saijo_and_Hiroshima.py"]
@@ -11,7 +14,7 @@ flowchart TD
         A --> B
     end
 
-    subgraph S2["② Zmap TOWN II 建物データ整備"]
+    subgraph S2["② 建物データ整備"]
         C[("Zmap TOWN II 原データ")]
         D["Zmap_TOWN_II_pipeline.py<br/>CRS補正・5km圏内抽出"]
         E[("広島駅・西条駅 5km 建物GPKG")]

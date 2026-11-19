@@ -4,15 +4,15 @@
     python scripts/new_weekly.py              # 今週（月曜はじまり）
     python scripts/new_weekly.py 2026-11-16   # 指定日を含む週
 
-docs/05_weekly/posts/YYYY-MM-DD.md が作成される（日付は週の月曜日）。
+05_weekly/posts/YYYY-MM-DD.qmd が作成される（日付は週の月曜日）。
 """
 import sys
 from datetime import date, timedelta
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-TEMPLATE = ROOT / "templates" / "weekly_report.md"
-POSTS_DIR = ROOT / "docs" / "05_weekly" / "posts"
+TEMPLATE = ROOT / "_templates" / "weekly_report.qmd"
+POSTS_DIR = ROOT / "05_weekly" / "posts"
 
 
 def main() -> None:
@@ -20,7 +20,7 @@ def main() -> None:
     monday = day - timedelta(days=day.weekday())
     friday = monday + timedelta(days=4)
 
-    out = POSTS_DIR / f"{monday.isoformat()}.md"
+    out = POSTS_DIR / f"{monday.isoformat()}.qmd"
     if out.exists():
         sys.exit(f"既に存在します: {out.relative_to(ROOT)}")
 
