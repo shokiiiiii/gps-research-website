@@ -41,6 +41,9 @@ website:
       - icon: github
         href: https://github.com/shokiiiiii/gps-research-website
         aria-label: GitHub
+      - icon: box-arrow-right
+        href: /__logout
+        aria-label: ログアウト
   sidebar:
     - id: methodology
       title: 処理の詳細

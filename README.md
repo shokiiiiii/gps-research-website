@@ -31,6 +31,15 @@ python scripts/new_weekly.py      # 今週分の 05_weekly/posts/YYYY-MM-DD.qmd 
 | `05_weekly/posts/` | 週報 |
 | `_templates/` | 週報の雛形（サイトには出ません） |
 
+## パスワード保護
+
+`functions/_middleware.js` がサイト全体にログイン画面をかけます（Cloudflare Pages Functions）。
+
+- Cloudflare Pages の環境変数 `SITE_PASSWORD` にパスワードを設定する（未設定だとサイトは表示されません）
+- 一度ログインすると30日間有効。右上のアイコンからログアウトできます
+- パスワードを変えると、全員のログインが解除されます
+- `quarto preview` でのローカル確認ではパスワードはかかりません
+
 ## 公開（Cloudflare Pages）
 
 | 設定項目 | 値 |
