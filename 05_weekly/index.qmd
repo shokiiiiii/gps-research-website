@@ -33,7 +33,6 @@ GitHub で `05_weekly/posts/` を開き「Add file → Create new file」から�
 ---
 title: "週報 2026/11/16〜11/20"
 date: 2026-11-16
-description: "今週のまとめを1行で"
 categories: [週報]
 ---
 ```
