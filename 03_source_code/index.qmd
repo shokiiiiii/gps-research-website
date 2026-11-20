@@ -1,0 +1,13 @@
+---
+title: "コード一覧"
+---
+
+分析に使用したコードを掲載します。各工程との対応は [全体フロー](../01_workflow/index.qmd) を参照してください。
+
+| 工程 | 種類 | ファイル | 状況 |
+|---|---|---|---|
+| ① 5kmバッファ作成 | Python | `Processed_buffer_5km_Saijo_and_Hiroshima.py` | 未掲載 |
+| ② 建物データ整備 | Python | `Zmap_TOWN_II_pipeline.py` | 未掲載 |
+| ③ 滞在抽出・建物付与 | Python | [Processed_Stay_Zmap_TOWN_II.py](processed_stay.qmd) | 掲載済み |
+| ③ 検証 | Notebook | [Stay_region_building.ipynb](notebooks/Stay_region_building.ipynb) | 掲載済み |
+| ④ 共滞在分析 | Python | 確認中 | — |

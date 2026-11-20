@@ -1,2 +1,1 @@
-mkdocs-material
-mkdocs-jupyter
+quarto-cli==1.11.9

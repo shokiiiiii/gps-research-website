@@ -1,0 +1,16 @@
+---
+title: "Processed_Stay_Zmap_TOWN_II.py"
+description: "GPS滞在データにZmap TOWN IIの建物属性を付与する"
+---
+
+GPSデータから各駅5km圏内の滞在を抽出し、建物ポリゴンと対応付けます。
+
+- **入力**：`01_Data/raw/GPS_data_with_socio/`、各駅の5km建物GPKG・5kmバッファ
+- **出力**：`01_Data/processed/Stay_region_building/Stay_*_5km_building_Z.parquet`
+- **検証**：[Stay_region_building.ipynb](notebooks/Stay_region_building.ipynb)
+
+[ファイルをダウンロード](python/Processed_Stay_Zmap_TOWN_II.py){.btn .btn-outline-primary .btn-sm download="Processed_Stay_Zmap_TOWN_II.py"}
+
+```{.python filename="Processed_Stay_Zmap_TOWN_II.py" code-line-numbers="true"}
+{{< include python/Processed_Stay_Zmap_TOWN_II.py >}}
+```

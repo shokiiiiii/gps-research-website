@@ -1,0 +1,42 @@
+---
+title: "週報"
+subtitle: "研究の進捗を週ごとに記録します"
+toc: false
+listing:
+  contents: posts
+  sort: "date desc"
+  type: default
+  categories: true
+  sort-ui: false
+  filter-ui: true
+  date-format: "YYYY/MM/DD"
+  fields: [date, title, description, categories, reading-time]
+---
+
+::: {.callout-tip collapse="true"}
+## 週報の書き方
+
+**ローカルで書く場合**
+
+```bash
+python scripts/new_weekly.py
+```
+
+`05_weekly/posts/<その週の月曜日>.qmd` が雛形から作成されるので、中身を書いて push します。
+
+**ブラウザだけで書く場合**
+
+GitHub で `05_weekly/posts/` を開き「Add file → Create new file」から作成します。
+ファイル名は `2026-11-16.qmd` のように日付にし、先頭に次の行を入れてください。
+
+```yaml
+---
+title: "週報 2026/11/16〜11/20"
+date: 2026-11-16
+description: "今週のまとめを1行で"
+categories: [週報]
+---
+```
+
+既存の週報は、各ページの「ページを編集」リンクから GitHub 上で直接編集できます。
+:::
